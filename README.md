@@ -263,7 +263,86 @@ onMounted(() => {
 </template>
 
 
+<!-- 18-Video (From Mixins to Composables) -->
 
+<!-- Special alert which we install on this command. -->
+<!-- npm install sweetalert --save-dev -->
+
+<script setup>
+// import it like this:
+import swal from 'sweetalert';
+
+function flash(message) {
+  // fisrt is title, second is message. and third is icon.
+  swal('Success!', message, 'success');
+}
+
+// Mixins Code.
+// just paste you script code of alert here.
+// it works like traits code in php having different funcitons in one file and you can use it from averywhere.
+// if you have large code than mixins is not clear. where my function is define. sp instead of it the most recommended approch is coposables.
+
+import swal from 'sweetalert';
+
+export default {
+    methods: {
+        flash(message) {
+            return swal('Success!', message, 'success');
+        }
+    },
+}
+
+// Page code example
+
+<script>
+  import flash from './../../mixins/flash';
+
+  export default {
+    mixins: [flash],
+  };
+
+</script>
+
+<!-- Composables Code. -->
+<!-- just paste you script code of alert here. -->
+<!-- its an alternate of mixins. -->
+<!-- when you are making composable make this file with name use and then its name like useName -->
+
+import swal from 'sweetalert';
+
+export function useFlash() {
+    function flash(message) {
+        return swal('Success!', message, 'success');
+    }
+
+    return { flash };
+}
+
+<!-- component code with setup method  -->
+<script>
+import { useFlash } from './../../composables/useFlash.js';
+
+export default {
+  setup() {
+    // Destructure the flash function from the composable
+    let { flash } = useFlash();
+
+    // Expose the flash function to the template
+    return { flash };
+  }
+};
+
+</script>
+
+<!-- component code with setup attribute  -->
+
+<script setup>
+
+  import { useFlash } from './../../composables/useFlash.js';
+  
+  let { flash } = useFlash();
+
+</script>
 
 
 
