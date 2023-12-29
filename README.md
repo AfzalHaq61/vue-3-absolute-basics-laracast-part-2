@@ -344,6 +344,122 @@ export default {
 
 </script>
 
+// 19-video (Composable Example: Local Storage)
+// used composables with coposition apis and reactivity.
+// use localStorages and vue wachers.
+// if you are using SSR then server doesnt know local storage then you need to create your own apis for it else it work for browser.
+
+// To store value in localStorage.
+<script setup>
+  import { ref, watch } from "vue";
+
+  // get value from localStorage.
+  let food = ref(localStorage.getItem("food"));
+  let age = ref(localStorage.getItem("age"));
+
+  function write(key, value) {
+    // set value in localStorage.
+    localStorage.setItem(key, val);
+  }
+</script>
+
+<template>
+  <main>
+    <p>
+      What is your favorite food? <input type="text" v-model="food" @input="write('food', food)">
+    </p>
+    <p>
+      What is your favorite food? <input type="text" v-model="age" @input="write('age', age)">
+    </p>
+  </main>
+</template>
+
+// We can do it by watch method instead of @input="write('food', food)" b/c if the value is change automatically or from somewhere else then it will not changed.
+// watch is looking evertime for this value when the value is changes it will run its funtionolity
+
+<script setup>
+  import { ref, watch } from "vue";
+
+  let food = ref(localStorage.getItem("food"));
+  let age = ref(localStorage.getItem("age"));
+
+  // define like this. the first value is the name of data. the second oen is the value of data.
+  watch(food, (val) => {
+    write('food', val);
+  })
+
+  function write(key, val) {
+    localStorage.setItem(key, val);
+  }
+</script>
+
+<template>
+  <main>
+    <p>
+      What is your favorite food? <input type="text" v-model="food">
+    </p>
+  </main>
+</template>
+
+ // if you want to store array or object make it json decode by JSON.stringify and the decode it by JSON.parse.
+
+<!-- comopsable code -->
+import { ref, watch } from "vue";
+
+export function useStorage(key, data = null) {
+  let storedData = read();
+
+  if (storedData) {
+    data = ref(storedData);
+  } else {
+    data = ref(data);
+
+    write();
+  }
+
+  <!-- if you use obj then you need deep = true so that waatch can check deep into obj it will check value in obj which is changed if there is no deep then it will nor check deep it will just look into the first value which is work for normal data. if there is no need then you need to changes the entire object with the obj name. -->
+  watch(data, write, { deep: true });
+
+  function read() {
+    return JSON.parse(localStorage.getItem(key));
+  }
+
+  function write() {
+    if (data.value === null || data.value === '') {
+      localStorage.removeItem(key);
+    } else {
+      localStorage.setItem(key, JSON.stringify(data.value));
+    }
+  }
+
+  return data;
+}
+
+<!-- component code -->
+ <script setup>
+  import { useStorage } from "./../../composables/useStorage";
+
+  let food = useStorage('food', 'tacos');
+
+  // store obj in local storage.
+  let obj = useStorage('obj', { one : 'one' });
+
+  setTimeout(() => {
+    obj.value.one = 'changed';
+  }, 3000);
+
+</script>
+
+<template>
+  <main>
+    <p>
+      What is your favorite food? <input type="text" v-model="food">
+    </p>
+  </main>
+</template>
+
+
+
 
 
 
