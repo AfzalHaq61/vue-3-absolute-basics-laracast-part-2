@@ -458,6 +458,71 @@ export function useStorage(key, data = null) {
   </main>
 </template>
 
+// 20-video (Refactor to defineProps and defineEmits)
+// In text area when we click button tab then it didn't work but it select browser functionolity so will will make the tab button to work when click in text area.
+
+// child compomemt code.
+<script setup>
+
+// props is used like this in composable api and if we want to take model value so we can taek it like this same as option api.
+// that how we passed model data from parent compoennt to child compoennt.
+defineProps({
+  modelValue: String
+});
+
+// this decleration is must.
+let emit = defineEmits(['update:modelValue']);
+
+// e will give you total elemen template and the .target will give you the data.
+function onTabPress(e) {
+  let textarea = e.target;
+  let val = textarea.value,
+    start = textarea.selectionStart,
+    end = textarea.selectionEnd;
+  // select value then start position and then end position and put tab between them.
+  textarea.value = val.substring(0, start) + "\t" + val.substring(end);
+  // then move the cursot to the end of that value so you can write from that tabbable position. and i think this start + 1 is not necessary.
+  textarea.selectionStart = textarea.selectionEnd = start + 1;
+}
+</script>
+<template>
+  // prevent is used to disable the default functionality of the browser when click on tab and it works on our way.
+  @keydown.tab. tab is modifier for tab button and there also more like for enter, backspace etc.
+  // display modelvalue prop like this. v-text="modelValue"
+  // @keyup="emit('update:modelValue', $event.target.value)"
+  // when key up it will update the model value of the parent compoenent. but we have to declare the emits like we declare it in upper portion.
+  <textarea
+    @keydown.tab.prevent="onTabPress"
+    @keyup="emit('update:modelValue', $event.target.value)"
+    v-text="modelValue" />
+</template>
+
+// Parent compomemt code.
+<script setup>
+  import TabbableTextarea from "./../components/TabbableTextarea.vue";
+  import { ref } from "vue";
+  let comment = ref('initial textarea value');
+</script>
+
+<template>
+  <main>
+    <form>
+      <TabbableTextarea v-model="comment" style="width: 100%; height: 300px;" />
+    </form>
+  </main>
+</template>
+
+// if we want to take template of something element of html then pass it to ref like in the below code
+// make ref varible of it and then you can use its template for every thing you want.
+<script> 
+  let textarea = ref(null)
+
+  let t = textarea.value;
+
+</script>
+
+<TabbableTextarea ref="textarea" />
+
 
 
 
