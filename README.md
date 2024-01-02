@@ -523,6 +523,93 @@ function onTabPress(e) {
 
 <TabbableTextarea ref="textarea" />
 
+// 21-video (Dependency Injection With Provide and Inject)
+// you can see here we have to pass a prop from parnt to child and then child to child. this is a problem when we have large amounts of components and pass data to last child. so we can do it easily by Dependency Injection With Provide and Inject.
+
+// parent componnt
+<script setup>
+  import Quiz from "../components/Quiz.vue";
+  import { ref } from "vue";
+
+</script>
+
+<template>
+  <main>
+    <Quiz myquiz="first quiz"></Quiz>
+  </main>
+</template>
+
+// child component
+<script setup>
+import QuizFoot from './QuizFoot.vue'
+
+defineProps({
+  myquiz: {
+    type: String,
+    required: true
+  }
+})
+</script>
+<template>
+  <QuizFoot :myquiz="myquiz"></QuizFoot>
+</template>
+
+// scond child component
+<script setup>
+
+const props = defineProps({
+  myquiz: {
+    type: String,
+    required: true
+  }
+})
+
+</script>
+
+<template>
+  {{ myquiz }}
+</template>
+
+// by Dependency Injection With Provide and Inject. import provide from vue and thn pass data to it then in last child component import inject from vue and collct that key which you provide.
+// if the data is reactive. and you change it from nested child then it will change in parent component because it is ractive.
+// If you did not want to change value from footer then make function in provide and inject that function in child and you can call that function to change value from it. b/c in large projects if you change value from child then it is very hard to find that from where it changed.
+
+// parent componnt
+<script setup>
+  import Quiz from "../components/Quiz.vue";
+  import { provide, ref } from "vue";
+
+  let key = ref("first quiz za mara");
+
+  provide('key', {
+    key,
+    changeName: () => key.value = 'Change Name'
+  });
+
+</script>
+
+<template>
+  <main>
+    {{ key }}
+    <Quiz></Quiz>
+  </main>
+</template>
+
+// last child component
+<script setup>
+import { inject } from 'vue';
+
+const { key, changeName }  = inject('key');
+
+setTimeout(() => {
+  changeName();
+}, 3000);
+</script>
+
+<template>
+  {{ key }}
+</template>
+
 
 
 

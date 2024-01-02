@@ -1,13 +1,19 @@
 <script setup>
-  import TabbableTextarea from "./../components/TabbableTextarea.vue";
-  import { ref } from "vue";
-  let comment = ref('initial textarea value');
+  import Quiz from "../components/Quiz.vue";
+  import { provide, ref } from "vue";
+
+  let key = ref("first quiz za mara");
+
+  provide('key', {
+    key,
+    changeName: () => key.value = 'Change Name'
+  });
+
 </script>
 
 <template>
   <main>
-    <form>
-      <TabbableTextarea v-model="comment" style="width: 100%; height: 300px;" />
-    </form>
+    {{ key }}
+    <Quiz></Quiz>
   </main>
 </template>
