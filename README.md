@@ -610,6 +610,47 @@ setTimeout(() => {
   {{ key }}
 </template>
 
+// 21-video (Store State in an External File)
+// we will discuss this.
+// global state.
+// prop drilling.
+// ractivity.
+
+// if we have data and we want access of that data in every component. then we want some global state that we store our data there and we have access of that data to all components.
+
+// you can create many stores as you want . may be you can create for some specific user or for shopping cart
+// you can make the store reactive then you can use it change it from the component. as like we have done it below.
+
+// some of the road blocks.
+// In bigger apps some time our states changes but we dont know from where it changes.
+// and i want to hook in when data changes. may be store data in local storage.
+// these are some bloacks in next video we will discuss this that how to overcome.
+
+// quizStore code.
+// reactive is a specially use for objects.
+import { reactive } from "vue";
+
+export let state = reactive({
+  name: 'My Second Quiz',
+  questions: []
+});
+
+// template code.
+<template>
+  <div>
+    <h5>{{ state.name }}</h5>
+  </div>
+
+  <button @click="state.name = 'changed'">{{ state.name }}</button>
+</template>
+
+<script setup>
+import {state} from "@/stores/quizStore";
+</script>
+
+
+
+
 
 
 
