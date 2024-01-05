@@ -648,6 +648,45 @@ export let state = reactive({
 import {state} from "@/stores/quizStore";
 </script>
 
+// 22-video (Direct Mutation Concerns)
+// we will discuss this.
+// State
+// Actions
+// Mutating State
+
+// we discuss globall state lately and now the variabe we store data is called state.
+// the function based on this state is called action.
+
+// Parent component.
+<script setup>
+import {counter} from "@/stores/counterStore";
+</script>
+
+<template>
+  <div>
+    <h1>{{ counter.count }}</h1>
+
+    <button @click="counter.increment()">Increment</button>
+  </div>
+</template>
+
+// store code.
+import { reactive } from "vue";
+
+export let counter = reactive({
+  // state
+  count: 0,
+
+  // action
+  increment() {
+    if (this.count >= 10) {
+      return;
+    }
+
+    this.count++;
+  }
+});
+
 
 
 
