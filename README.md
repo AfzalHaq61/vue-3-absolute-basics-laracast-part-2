@@ -687,6 +687,101 @@ export let counter = reactive({
   }
 });
 
+// 23-video (Say Hello to Pinia)
+
+// we are discussig this.
+// State
+// Actions
+// Getters
+
+// we are using a dedicated tool for state management called pinia.
+// there is a differnet tool vuex but this is official replacement of it called pinia.
+
+// we will convert the last episode to pinia and then make a proper project in next episode.
+
+// install pinia by this command
+// npm install pinia
+// then import in in main.js file and register it.
+// Make stores folder in src.
+// make a file with name start with capital letter and the followed by store. likw CounterStore.
+
+import './assets/main.css'
+
+import { createApp } from 'vue'
+// here we import it.
+import { createPinia } from 'pinia'
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(router)
+// here we register it.
+app.use(createPinia())
+
+app.mount('#app')
+
+// state code.
+//import define store from pinia.
+
+import { defineStore } from "pinia";
+
+// the name will be like it start with use and the file name like useCounterStore.
+// then defien store and give a name to its first parameter.
+// this name is use for dev tools or extention which we use in browser for pinia.s
+// it is identifier.
+// then export.
+
+export let useCounterStore = defineStore('counter', {
+  // data
+  // understand it like data.
+  state() {
+    return {
+      count: 5
+    };
+  },
+
+  // methods
+  // // understand it like functions.
+  actions: {
+    increment() {
+      if (this.count < 10) {
+        this.count++;
+      }
+    }
+  },
+
+  // computed
+  // understand it like computed properties.
+  getters: {
+    remaining() {
+      return 10 - this.count;
+    }
+  }
+});
+
+//main code.
+<script setup>
+// import the function from the store.
+import {useCounterStore} from "@/stores/CounterStore";
+
+// store it in variable.
+let counter = useCounterStore();
+</script>
+
+<template>
+  <div>
+    // it is in state function but we can use it.
+    // and we can change it from every where it is reactive.
+    <h1>{{ counter.count }}</h1>
+
+    <button
+      @click="counter.increment()"
+      :disabled="! counter.remaining"
+    >Increment ({{ counter.remaining }} Remaining)</button>
+  </div>
+</template>
+
 
 
 

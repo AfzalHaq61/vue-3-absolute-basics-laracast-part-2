@@ -1,15 +1,15 @@
+<script setup>
+import {useCounterStore} from "@/stores/CounterStore";
+let counter = useCounterStore();
+</script>
+
 <template>
-  <div class="contact">
-    <h1>This is an contact page</h1>
+  <div>
+    <h1>{{ counter.count }}</h1>
+
+    <button
+      @click="counter.increment()"
+      :disabled="! counter.remaining"
+    >Increment ({{ counter.remaining }} Remaining)</button>
   </div>
 </template>
-
-<style>
-@media (min-width: 1024px) {
-  .contact {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
