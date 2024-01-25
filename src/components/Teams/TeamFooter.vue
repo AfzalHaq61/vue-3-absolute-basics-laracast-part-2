@@ -4,8 +4,8 @@
     </footer>
   </template>
   
-  <script setup>
-  defineProps({
-    team: Object
-  });
-  </script>
+<script setup>
+import { useTeamStore } from "./../../stores/TeamStore.js";
+
+let team = useTeamStore();
+</script>

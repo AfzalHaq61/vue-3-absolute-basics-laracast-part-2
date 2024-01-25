@@ -830,6 +830,132 @@ let counter = useCounterStore();
 <img :src="`https://i.pravatar.cc/50?u=${email}`" alt="" class="rounded-xl">
 <img :src="'https://i.pravatar.cc/50?u='+email" alt="" class="rounded-xl">
 
+// 25 Video (Build and Seed a Team Store)
+
+//Team store
+import { defineStore } from "pinia";
+
+export let useTeamStore = defineStore('team', {
+  // Two method we can use it for state one is this which provide better type scipt support 
+  // fun() {} and fun: () => ({ })
+  // the arrow directly return you dont need to writte return
+  state: () => ({
+    name: '',
+    spots: 0,
+    members: []
+  }),
+
+  // second is this.
+  state() {
+    return {
+      name: '',
+      spots: 0,
+      members: []
+    }
+  },
+
+  // asynchronous function
+  // An asynchronous function, often denoted by the async keyword in JavaScript, is a function that operates asynchronously using the Promise mechanism or the async/await syntax. Asynchronous functions are crucial for handling tasks that might take some time to complete, such as fetching data from an API, reading from a file, or executing time-consuming computations.
+
+  Asynchronous functions are crucial for writing code that needs to perform non-blocking operations and respond to the completion of those operations without freezing the entire program's execution.
+
+  actions: {
+    // fill or hanlde or something is used to fill the state with ajax or json data.
+    // two ways to fill the state
+    // Async/Await: In this method, the import statement is awaited, which means the execution of the function is paused until the import is 
+    // complete. This allows you to write asynchronous code in a more synchronous style. It's often considered more readable and easier to 
+    // understand, especially when dealing with multiple asynchronous operations.
+    
+    async fill() {
+      let r = await import('./../../team.json');
+
+      this.$state = r.default;
+    },
+
+    // Promise/Then: In this method, the import statement returns a Promise. The then method is used to handle the asynchronous result once 
+    // the import is complete. This is the traditional way of working with asynchronous operations in JavaScript before the introduction of 
+    //async/await. It's still widely used and is perfectly valid.
+
+    fill() {
+      import('./../../team.json').then(r => {
+        let data = r.default;
+
+        this.name = data.name;
+        this.spots = data.spots;
+        this.members = data.members;
+      });
+
+    fill() {
+      import('./../../team.json').then(r => {
+        let data = r.default;
+
+        this.$patch({
+          name = data.name;
+          spots = data.spots;
+          members = data.members;
+        })
+    
+      });
+
+    },
+
+    grow(spots) {
+      this.spots = spots;
+    }
+  },
+
+  getters: {
+    spotsRemaining() {
+      return this.spots - this.members.length;
+    }
+  }
+});
+
+// Team file you have only need to fill and intililize in parent components.
+<script setup>
+import TeamHeader from "@/components/Teams/TeamHeader.vue";
+import TeamMembers from "@/components/Teams/TeamMembers.vue";
+import TeamFooter from "@/components/Teams/TeamFooter.vue";
+
+//import like this .
+import { useTeamStore } from "./../stores/TeamStore.js";
+
+//initialize it.
+let team = useTeamStore();
+
+//fill the state.
+team.fill();
+
+// Example of calling a store action.
+setTimeout(() => {
+  team.grow(25);
+}, 2000);
+
+</script>
+
+<template>
+  <TeamHeader />
+
+  <div class="place-self-center flex flex-col gap-y-3" style="width: 725px">
+    <TeamMembers />
+  </div>
+
+  <TeamFooter />
+</template>
+
+// all other files dont need to initlize here just import it.
+<template>
+    <footer class="mt-12 bg-gray-100 py-4 text-center">
+      <h5 class="font-semibold text-lg">{{ team.name }} - {{ team.spots }} Member Team</h5>
+    </footer>
+  </template>
+  
+<script setup>
+import { useTeamStore } from "./../../stores/TeamStore.js";
+
+let team = useTeamStore();
+</script>
+
 
 
 
