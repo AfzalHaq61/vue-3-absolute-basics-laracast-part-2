@@ -1,0 +1,36 @@
+{
+    "name": "Smily",
+    "spots": 10,
+    "members": [
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        }
+    ]
+}   

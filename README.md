@@ -782,6 +782,57 @@ let counter = useCounterStore();
   </div>
 </template>
 
+// 24-video (Code Organization)
+//Extract Vue Components
+// in this video we just set the design of the project and extaract component by simple props and now in next we will use state managment.
+
+// here if we dont have data then we can use json file as a database like we make this
+{
+    "name": "Smily",
+    "slot": 8,
+    "members": [
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        },
+        {
+            "name": "test",
+            "email": "test@example.com",
+            "status": "Active"
+        }
+    ]
+}   
+
+// we can pass concanicate dynamic value with string like this.
+// both the ways are coorect
+
+<img :src="`https://i.pravatar.cc/50?u=${email}`" alt="" class="rounded-xl">
+<img :src="'https://i.pravatar.cc/50?u='+email" alt="" class="rounded-xl">
+
+
+
+
 
 
 
