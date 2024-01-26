@@ -782,7 +782,7 @@ let counter = useCounterStore();
   </div>
 </template>
 
-// 24-video (Code Organization)
+// 25-video (Code Organization)
 //Extract Vue Components
 // in this video we just set the design of the project and extaract component by simple props and now in next we will use state managment.
 
@@ -830,7 +830,7 @@ let counter = useCounterStore();
 <img :src="`https://i.pravatar.cc/50?u=${email}`" alt="" class="rounded-xl">
 <img :src="'https://i.pravatar.cc/50?u='+email" alt="" class="rounded-xl">
 
-// 25 Video (Build and Seed a Team Store)
+// 27 Video (Build and Seed a Team Store)
 
 //Team store
 import { defineStore } from "pinia";
@@ -854,7 +854,7 @@ export let useTeamStore = defineStore('team', {
     }
   },
 
-  // asynchronous function
+  // Asynchronous function
   // An asynchronous function, often denoted by the async keyword in JavaScript, is a function that operates asynchronously using the Promise mechanism or the async/await syntax. Asynchronous functions are crucial for handling tasks that might take some time to complete, such as fetching data from an API, reading from a file, or executing time-consuming computations.
 
   Asynchronous functions are crucial for writing code that needs to perform non-blocking operations and respond to the completion of those operations without freezing the entire program's execution.
@@ -955,6 +955,109 @@ import { useTeamStore } from "./../../stores/TeamStore.js";
 
 let team = useTeamStore();
 </script>
+
+// 28 Video (Build a Modal Component)
+// we will learn 
+// Modal Components
+// Emitting Events
+
+// first of all we will make a modal component.
+// it is just simple model.
+// we will explain some main functionality.
+
+// we are implementing model from Parent and the add button is in another child component so we will make an event which will comunicate with parent and parent will pass props to the model child and the we can open the mode so as for close wi will make an event to close model from parent.
+
+// parent component
+<TeamHeader @add="showModal = true" />
+
+// child component
+<div>
+  <button @click="$emit('add')"></button>
+</div>
+
+// parent component
+<Modal :show="showModal" @close="showModal = false">
+  <template #default>
+    <p>Need to add a new member to your team?</p>
+
+    <form class="mt-6">
+      <div class="flex gap-2">
+        <input type="email" placeholder="Email Address..." class="flex-1">
+        <button>Add</button>
+      </div>
+    </form>
+  </template>
+</Modal>
+
+// child component
+<footer class="modal-footer">
+  <slot name="footer">
+    <button @click="$emit('close')">Close</button>
+  </slot>
+</footer>
+
+// model component
+// the backgroud property is used to blur the modal background. we can blut it by this way.
+// .modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .6);
+  display: grid;
+  place-items: center;
+}
+
+<script setup>
+  defineProps({
+    show: Boolean
+  });
+</script>
+
+<template>
+  <div v-if="show" class="modal-mask">
+    <div class="modal-container">
+      <div>
+        <slot>default body</slot>
+      </div>
+
+      <footer class="modal-footer">
+        <slot name="footer">
+          <button @click="$emit('close')">Close</button>
+        </slot>
+      </footer>
+    </div>
+  </div>
+</template>
+
+<style>
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .6);
+  display: grid;
+  place-items: center;
+}
+.modal-container {
+  background: white;
+  padding: 1rem;
+  width: 80vw;
+  max-width: 500px;
+  border-radius: 7px;
+}
+.modal-footer {
+  border-top: 1px solid #ddd;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  font-size: .8rem;
+}
+.modal-footer button {
+  background: #ddd;
+  padding: .25rem .75rem;
+  border-radius: 20px;
+}
+.modal-footer button:hover {
+  background: #c8c8c8;
+}
+</style>
 
 
 
