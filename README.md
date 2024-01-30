@@ -1144,8 +1144,42 @@ let team = useTeamStore();
 
 ----------------------------------------------------------------
 
+// 30 Video (Teleporting)
 
+The benefit of teleporting in Vue.js lies in its ability to render a component's content at a different place in the DOM, outside of the component's parent hierarchy. This feature is particularly useful for scenarios where you need to position or render content in relation to the entire page rather than within the component's immediate parent.
 
+Here are some benefits of teleporting in Vue.js:
+
+Global Positioning: Teleporting allows you to position a component globally on the page, making it easier to create elements such as modals, tooltips, or overlays that should be displayed in relation to the entire viewport.
+
+Avoiding Z-index Issues: When you have multiple components with different z-index values, and you need one component to appear above others, teleporting to a higher-level DOM element (like the <body> tag) can help avoid z-index stacking issues.
+
+Avoiding Overflow Issues: Components that need to escape the confines of their parent container, especially when dealing with overflow properties, can benefit from teleporting to a higher-level container.
+
+Accessibility: Teleporting can be beneficial for creating accessible components, such as modals or popovers, that need to be appended to the end of the document body to ensure screen readers and other assistive technologies can properly interpret and announce them.
+
+Simplifying Component Structure: It can help keep your component structure clean and modular. Instead of including complex positioning logic within a component, you can use teleporting to move that component to a dedicated container, simplifying its structure.
+
+Facilitating Third-Party Integration: When integrating third-party libraries or widgets that need to be rendered globally, teleporting provides a straightforward way to place those elements outside the component's hierarchy.
+
+----------------------------------------------------------------
+
+// here we have are teleporitng this model to body ed which will be global to the whole project.
+// we can do it to another component by specific id just change it "body" to "#specific_id"
+<Teleport to="body">
+  <Modal :show="showModal" @close="showModal = false">
+      <template #default>
+        <p class="text-gray-900">Need to add a new member to your team?</p>
+
+        <form class="mt-6">
+          <div class="flex gap-2">
+            <input type="email" placeholder="Email Address..." class="flex-1">
+            <button>Add</button>
+          </div>
+        </form>
+      </template>
+  </Modal>
+</Teleport>
 
 
 
