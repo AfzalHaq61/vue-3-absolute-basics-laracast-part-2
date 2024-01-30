@@ -1059,6 +1059,90 @@ let team = useTeamStore();
 }
 </style>
 
+----------------------------------------------------------------
+
+// 29 Video (Two Ways to Transition)
+// we will learn
+// 1. Transition Component
+// 2. CSS Transitioning
+
+------------------------------------------------
+// first method
+// component based method.
+----------------------------------------------------------------
+// code for transition
+// enter from class and enter to is a start opacity will go from 0 to 100 and the scale will go from 125 to 100
+// enter active clas and leave active class is use for transition and its duration.
+// leave from class and leave to class is the end opacity will go from 100 to 0 and the scale will go from 0 to 125.
+<template>
+  <Transition
+   enter-from-class="opacity-0 scale-125"
+   enter-to-class="opacity-100 scale-100"
+   enter-active-class="transition duration-300"
+   leave-active-class="transition duration-200"
+   leave-from-class="opacity-100 scale-100"
+   leave-to-class="opacity-0 scale-125"
+  >
+    <div v-if="show" class="modal-mask">
+      <div class="modal-container">
+        <div>
+          <slot>default body</slot>
+        </div>
+
+        <footer class="modal-footer">
+          <slot name="footer">
+            <button @click="$emit('close')">Close</button>
+          </slot>
+        </footer>
+      </div>
+    </div>
+  </Transition>
+</template>
+
+----------------------------------------------------------------
+
+// Second method
+// css based method.
+----------------------------------------------------------------
+// code for transition
+// it is the same but it works on css.
+
+<template>
+  <Transition name="modal">
+    <div v-if="show" class="modal-mask">
+      <div class="modal-container">
+        <div>
+          <slot>default body</slot>
+        </div>
+
+        <footer class="modal-footer">
+          <slot name="footer">
+            <button @click="$emit('close')">Close</button>
+          </slot>
+        </footer>
+      </div>
+    </div>
+  </Transition>
+</template>
+
+<style>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.5s;
+}
+
+.modal-enter-to,
+.modal-leave-to {
+  opacity: 1;
+}
+
+.modal-enter,
+.modal-leave-to {
+  opacity: 0;
+}
+</style>
+
+----------------------------------------------------------------
 
 
 
